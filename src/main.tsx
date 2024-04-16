@@ -1,34 +1,26 @@
 import ReactDOM from "react-dom";
-import {
-  Navigate,
-  Outlet,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-} from "react-router-dom";
-import { GetStatus } from "./fetch/GetStatus.tsx";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
+import "./index.css";
 import { Login } from "./pages/Login.tsx";
 import { MainPage } from "./pages/MainPage.tsx";
 import { Register } from "./pages/Register.tsx";
-
 function App() {
-  const { status } = GetStatus();
-
-  const PrivateRoutes = () => {
-    let auth = status;
-    return auth ? <Outlet /> : <Navigate to="/login" />;
-  };
-
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route element={<PrivateRoutes />}>
-          <Route path="/" element={<MainPage />} />
-        </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <MainPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<Login></Login>} />
+        <Route path="/register" element={<Register></Register>} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
