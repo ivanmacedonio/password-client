@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export const GetData = (url: string) => {
   const [data, setData] = useState<any>(null);
@@ -7,9 +7,12 @@ export const GetData = (url: string) => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          method: "GET",
+          credentials: "include",
+        });
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const result = await response.json();
         setData(result);
